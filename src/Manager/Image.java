@@ -21,6 +21,9 @@ public class Image {
     
     public static BufferedImage[] cards = null;
     
+    public static BufferedImage soldier = null;
+    public static BufferedImage archer = null;
+    
     /**
     * Init images statically.
     */
@@ -32,6 +35,9 @@ public class Image {
             cards = new BufferedImage[2];
             for(int i=0; i<cards.length; i++)
             	cards[i] =  ImageIO.read(new File(StaticContent.resourceDirectory+"card"+i+".png"));
+            
+            soldier =  ImageIO.read(new File(StaticContent.resourceDirectory+"soldier.png"));
+            archer =  ImageIO.read(new File(StaticContent.resourceDirectory+"archer.png"));
         } catch (IOException e) {
             System.out.println("ERROR LOAD IMAGES");
         }

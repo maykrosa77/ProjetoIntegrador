@@ -3,7 +3,9 @@ package Objects;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import Manager.Image;
+import Objects.Units.BasicUnit;
 import ProjetoIntegrador.StaticContent;
 import Scenes.Scene;
 
@@ -15,6 +17,8 @@ public class Player extends Sprite{
 	
 	public float gold;
 	public float points;
+	
+	public ArrayList<BasicUnit> units;
 	
 	private Scene parent;
 	
@@ -31,6 +35,8 @@ public class Player extends Sprite{
 		this.points = 0;
 		
 		this.parent = parent;
+		
+		units= new ArrayList<BasicUnit>();
 	}
 	
     /** 
@@ -41,6 +47,9 @@ public class Player extends Sprite{
     @Override
     public void update(int difTime) {
     	gold += difTime/1000f;
+    	
+    	for(int i=0; i<units.size(); i++)
+    		units.get(i).update(difTime);
     }
 
     /** 
@@ -50,6 +59,8 @@ public class Player extends Sprite{
     */
 	@Override
 	public void render(Graphics2D graphics) {
+    	for(int i=0; i<units.size(); i++)
+    		units.get(i).render(graphics);
 		
     	/*interface componets*/
         graphics.setColor(Color.orange);

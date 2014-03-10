@@ -3,6 +3,8 @@ package Scenes;
 import Manager.Image;
 import Objects.Map;
 import Objects.Player;
+import Objects.Units.Archer;
+import Objects.Units.Soldier;
 import ProjetoIntegrador.GamePanel;
 
 import java.awt.Graphics2D;
@@ -10,6 +12,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 /**
 * GamePlayScene, scene presentation, configuration and 
@@ -22,6 +25,8 @@ public class GamePlayScene extends Scene{
        
 	private Player player;
     private Map map;
+    
+    private Random random;
     
     /** 
     * Constructor, init parameters of scene. 
@@ -55,6 +60,8 @@ public class GamePlayScene extends Scene{
        battlefields[0] = new Rectangle((int)(width*0.2f), (int)(height*0.45f), (int)(width*0.1f), (int)(height*0.1f));
        battlefields[1] = new Rectangle((int)(width*0.7f), (int)(height*0.45f), (int)(width*0.1f), (int)(height*0.1f));
        map = new Map(Image.terrain, 0, 0, bases, battlefields, this);
+       
+       random = new Random();
     }
 
     @Override
@@ -64,13 +71,27 @@ public class GamePlayScene extends Scene{
     	 if(e.getKeyCode() == KeyEvent.VK_ENTER){
     		 player.showCards = !player.showCards;
     	 }
+    	 
+     	if(player.showCards){
+     		if(e.getKeyCode() == KeyEvent.VK_1){
+    			player.units.add(new Soldier(Image.soldier, random.nextInt((int)(width*0.1f))+(int)(width*0.45f), (int)(height*0.75f)));
+     		}else if(e.getKeyCode() == KeyEvent.VK_2){
+    			player.units.add(new Archer(Image.archer,  random.nextInt((int)(width*0.1f))+(int)(width*0.45f), (int)(height*0.75f)));
+     		}
+    	}
     }
     @Override
     public void mouseMoved(MouseEvent e) {}    
     @Override
     public void mouseDragged(MouseEvent e) {}
     @Override
-    public void mouseReleased(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {
+    	for(int i=0; i<player.units.size(); i++){
+    		player.units.get(i).stateIA = 1;
+    		player.units.get(i).battlefieldX = (int)(width*0.25f);
+    		player.units.get(i).battlefieldY = (int)(height*0.5f);
+    	}
+    }
     @Override
     public void mousePressed(MouseEvent e) {}
     @Override
